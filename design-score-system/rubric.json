@@ -1,0 +1,45 @@
+{
+  "project": "Travai white background version",
+  "version_under_review": "白2.html",
+  "formula": "average of seven dimensions",
+  "dimensions": {
+    "1_visual_direction_brand": ["visual thesis", "brand recognition", "distinctive signature"],
+    "2_typography": [
+      "font personality and pairing",
+      "type scale",
+      "line height",
+      "letter spacing",
+      "Chinese-English harmony",
+      "responsive readability"
+    ],
+    "3_layout_spacing": ["hierarchy", "whitespace", "alignment", "density", "responsive layout"],
+    "4_color_component_consistency": ["brand color", "contrast", "shape", "borders", "component states"],
+    "5_ui_friendliness_interaction": [
+      "primary task clarity",
+      "hover/focus/active feedback",
+      "loading and success states",
+      "minimum clicks"
+    ],
+    "6_accessibility_cross_device": ["keyboard focus", "semantic controls", "contrast", "mobile", "reflow"],
+    "7_engineering_trust": [
+      "resource loading",
+      "performance",
+      "error transparency",
+      "AI transparency",
+      "maintainability",
+      "verification"
+    ]
+  },
+  "current_baseline": {
+    "date": "2026-07-16",
+    "1_visual_direction_brand": 7.7,
+    "2_typography": 9.0,
+    "3_layout_spacing": 7.4,
+    "4_color_component_consistency": 8.0,
+    "5_ui_friendliness_interaction": 7.5,
+    "6_accessibility_cross_device": 6.8,
+    "7_engineering_trust": 6.5,
+    "average_total": 7.6,
+    "next_target": 8.0
+  }
+}
