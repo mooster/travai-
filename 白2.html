@@ -199,6 +199,10 @@
     border-bottom: 1px solid var(--line);
   }
 
+  .chat-list:empty {
+    display: none;
+  }
+
   .chat-list a {
     position: relative;
     display: block;
@@ -491,6 +495,7 @@
   .composer-line .tape-art {
     max-width: 780px;
     opacity: 1;
+    filter: brightness(0) saturate(100%) invert(78%) sepia(42%) saturate(520%) hue-rotate(24deg) brightness(104%) contrast(86%);
   }
 
   .tape-art {
@@ -499,7 +504,7 @@
     height: auto;
     display: block;
     clip-path: inset(0 100% 0 0);
-    animation: tapeimage 4.8s cubic-bezier(.45,.05,.28,1) 3 both;
+    animation: tapeimage 4.8s cubic-bezier(.45,.05,.28,1) infinite;
   }
 
   @keyframes tapeimage {
