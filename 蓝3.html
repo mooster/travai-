@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>travai - 认真规划，尽兴旅游</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&family=Noto+Serif+SC:wght@600;700&family=Source+Sans+3:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #788696;
+    --paper-warm: #788696;
+    --ink: #fffdf1;
+    --ink-2: rgb(255 253 241 / .78);
+    --ink-3: rgb(255 253 241 / .52);
+    --line: rgb(255 253 241 / .14);
+    --line-strong: rgb(255 253 241 / .28);
+    --tape-gray: rgb(255 253 241 / .26);
+    --icon-gray: #fffced;
+    --greige: rgb(255 252 237 / .16);
+    --coral: #f58a66;
+    --logo-green: #63a958;
+    --green-soft: #c8e243;
+    --logo-yellow: #c8e243;
+    --yellow-soft: #f4ff3c;
+    --sans: "Travai Sans", "Helvetica Neue", Helvetica, Arial, "Noto Sans SC", "PingFang SC", sans-serif;
+    --display: "Avenir Next", "Trebuchet MS", var(--sans);
+    --serif: var(--display);
+    --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
+    --ui-size: 13px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { min-height: 100%; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    display: flex;
+    color: var(--ink);
+    background: var(--paper);
+    font: 15px/1.7 var(--sans);
+  }
+
+  button, textarea { font: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--icon-gray); outline-offset: 2px; }
+
+  aside {
+    width: 284px;
+    flex: none;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 17px 20px;
+    border-right: 1px solid var(--line);
+    background: rgb(120 134 150 / .98);
+  }
+
+  .brand {
+    position: relative;
+    z-index: 3;
+    padding: 0 2px;
+  }
+  .brand .logo-frame {
+    position: relative;
+    width: 226px;
+    height: 166px;
+    overflow: hidden;
+  }
+  .brand .lockup {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 210px;
+    height: auto;
+    margin: 0;
+    display: block;
+    transform: translateX(-50%);
+  }
+  .brand .tag {
+    width: 226px;
+    margin-top: -6px;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin: 24px 0 0;
+    padding: 5px;
+    border-radius: 999px;
+    background: rgb(255 253 241 / .065);
+    border: 1px solid rgb(255 253 241 / .15);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .1);
+  }
+
+  .actions button {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 10px;
+    border-radius: 999px;
+    border: 0;
+    background: transparent;
+    color: rgb(255 253 241 / .62);
+    font-size: var(--ui-size);
+    font-weight: 700;
+    white-space: nowrap;
+    transition: background .16s, box-shadow .16s, color .16s, transform .16s;
+  }
+
+  .actions .en {
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .actions .active {
+    color: var(--ink);
+    background: rgb(255 253 241 / .16);
+    box-shadow: inset 0 0 0 1px rgb(255 253 241 / .13);
+  }
+
+  .actions button:not(.active):hover {
+    color: var(--ink);
+    background: rgb(255 253 241 / .12);
+  }
+
+  .actions button:active { transform: translateY(0) scale(.98); }
+
+  nav {
+    flex: 1;
+    overflow-y: auto;
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-label {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 0 2px;
+    margin: 0 0 10px;
+    color: rgb(255 253 241 / .72);
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    letter-spacing: 0;
+    font-weight: 700;
+  }
+
+  .nav-label .en {
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .chat-list {
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .chat-list a {
+    position: relative;
+    display: block;
+    padding: 7px 2px 7px 16px;
+    color: rgb(255 253 241 / .5);
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    font-weight: 400;
+    line-height: 1.45;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .chat-list a:hover,
+  .chat-list a.current { color: var(--ink); }
+
+  .chat-list a.current::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: var(--icon-gray);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 2px;
+    color: rgb(255 253 241 / .72);
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    font-weight: 700;
+  }
+
+  .nav-label:hover,
+  .nav-item:hover {
+    color: rgb(255 253 241 / .9);
+  }
+
+  .nav-label,
+  .nav-item {
+    cursor: pointer;
+    transition: color .18s cubic-bezier(.3,.72,.12,1), transform .18s cubic-bezier(.3,.72,.12,1);
+  }
+
+  .nav-label:active,
+  .nav-item:active {
+    transform: translateY(1px);
+  }
+
+  .nav-label.is-selected,
+  .nav-item.is-selected {
+    color: var(--logo-yellow);
+  }
+
+  .nav-label.is-selected .nav-art-icon,
+  .nav-item.is-selected .nav-art-icon {
+    filter: sepia(1) saturate(8) hue-rotate(20deg) brightness(1.38);
+  }
+
+  .nav-label:hover .nav-art-icon,
+  .nav-item:hover .nav-art-icon {
+    filter: sepia(1) saturate(7) hue-rotate(22deg) brightness(1.35);
+  }
+
+  .chat-list a:hover,
+  .chat-list a.current {
+    color: rgb(255 253 241 / .92);
+  }
+
+  .chat-list a.current {
+    font-weight: 700;
+  }
+
+  .chat-list a.current::before {
+    background: var(--logo-yellow);
+  }
+
+  .nav-item svg { color: var(--ink-2); flex: none; }
+
+  .nav-art-icon {
+    width: 28px;
+    height: 28px;
+    flex: none;
+    display: block;
+    border-radius: 0;
+    object-fit: contain;
+  }
+
+  .nav-copy { min-width: 0; flex: 1; }
+
+  .nav-item .en {
+    font-family: var(--sans);
+    font-size: var(--ui-size);
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .insight-badge {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 7px;
+    border: 1px solid #ddcce9;
+    border-radius: 999px;
+    color: #74607f;
+    background: #f2e9f7;
+    font-family: var(--sans);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .insight-badge::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 999px;
+    background: #b99bd1;
+  }
+
+  .sidebar-illustration {
+    width: 218px;
+    margin: auto auto 0;
+    padding-top: 26px;
+    opacity: .32;
+    pointer-events: none;
+    transform: none;
+  }
+
+  .sidebar-illustration img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .user {
+    display: flex;
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+    margin-top: 12px;
+    align-items: center;
+    gap: 11px;
+  }
+
+  .avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    flex: none;
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  .user .mail {
+    min-width: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+
+  .user .mail div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .user .mail .sub {
+    color: var(--ink-3);
+    font-size: 11.5px;
+  }
+
+  .logout {
+    margin-left: auto;
+    padding: 6px;
+    display: flex;
+    color: var(--ink-3);
+    background: none;
+    border: none;
+  }
+
+  .logout:hover { color: var(--ink); }
+
+  main {
+    position: relative;
+    min-width: 0;
+    flex: 1;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background: var(--paper);
+  }
+
+  main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: none;
+  }
+
+  .topbar {
+    position: relative;
+    z-index: 3;
+    height: 68px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+    padding: 0 38px;
+    color: rgb(255 253 241 / .62);
+    font-size: 13px;
+  }
+
+  .topbar button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 6px;
+    color: rgb(255 253 241 / .62);
+    background: none;
+    border: none;
+  }
+
+  .topbar button:hover { color: var(--ink); }
+
+  .hero {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 44px 48px;
+  }
+
+  .hero-inner {
+    width: min(960px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .draw-line {
+    width: 100%;
+    height: 54px;
+    margin: 0 0 18px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .tape-art {
+    width: 100%;
+    max-width: 520px;
+    height: auto;
+    display: block;
+    clip-path: inset(0 100% 0 0);
+    opacity: .3;
+    animation: tapeimage 6.2s cubic-bezier(.45,.05,.28,1) infinite;
+  }
+
+  @keyframes tapeimage {
+    0% { clip-path: inset(0 100% 0 0); opacity: 0; }
+    8% { opacity: .3; }
+    64% { clip-path: inset(0 0 0 0); opacity: .3; }
+    88% { clip-path: inset(0 0 0 0); opacity: .3; }
+    100% { clip-path: inset(0 100% 0 0); opacity: 0; }
+  }
+
+  h1 {
+    margin: 0 auto 18px;
+    max-width: 880px;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: clamp(46px, 4.7vw, 66px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.12;
+    text-align: center;
+  }
+
+  .sub {
+    max-width: 620px;
+    margin: 0 auto;
+    color: var(--ink-2);
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .composer-zone {
+    width: min(812px, 100%);
+    margin-top: 58px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .planning-signals {
+    width: min(760px, 100%);
+    margin: 12px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    color: rgb(255 253 241 / .72);
+    font-size: 11.8px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .planning-signals span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 15px;
+    padding: 0;
+  }
+
+  .planning-signals span + span::before {
+    content: "·";
+    margin: 0 10px;
+    color: rgb(255 253 241 / .28);
+  }
+
+  .planning-signals .pink {
+    color: var(--logo-yellow);
+  }
+
+  .planning-signals .latin {
+    display: inline-block;
+    margin-left: 2px;
+    font-family: var(--sans);
+    font-size: 1em;
+    line-height: 1;
+    transform: translateY(.2px);
+  }
+
+  .composer-shell {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid rgb(255 253 241 / .12);
+    border-radius: 29px;
+    background: rgb(255 253 241 / .045);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .075),
+      0 28px 82px rgb(35 45 60 / .12);
+    transition:
+      border-color .2s cubic-bezier(.3,.72,.12,1),
+      background .2s cubic-bezier(.3,.72,.12,1),
+      box-shadow .2s cubic-bezier(.3,.72,.12,1);
+  }
+
+  .composer-shell:focus-within {
+    border-color: rgb(255 253 241 / .22);
+    background: rgb(255 253 241 / .065);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .1),
+      0 32px 90px rgb(35 45 60 / .17);
+  }
+
+  .composer {
+    position: relative;
+    width: 100%;
+    min-height: 198px;
+    padding: 28px 30px 22px;
+    background: rgb(255 253 241 / .055);
+    border: 1px solid rgb(255 253 241 / .24);
+    border-radius: 23px;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .08);
+    transition: border-color .2s cubic-bezier(.3,.72,.12,1), background .2s cubic-bezier(.3,.72,.12,1);
+  }
+
+  .composer-shell:focus-within .composer {
+    border-color: rgb(255 253 241 / .38);
+    background: rgb(255 253 241 / .09);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .11);
+  }
+
+  .corner-deco {
+    position: absolute;
+    top: -15px;
+    right: 38px;
+    width: 68px;
+    pointer-events: none;
+    opacity: .62;
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 138px;
+    resize: none;
+    border: none;
+    outline: none;
+    color: var(--ink);
+    background: transparent;
+    font: inherit;
+  }
+
+  textarea:focus-visible { outline: none; }
+
+  textarea::placeholder {
+    color: rgb(255 253 241 / .5);
+    line-height: 1.75;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .icon-btn {
+    display: flex;
+    padding: 6px;
+    color: var(--ink-2);
+    background: none;
+    border: none;
+  }
+
+  .icon-btn:hover { color: var(--ink); }
+
+  .hint {
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+
+  .send {
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgb(200 226 67 / .68);
+    border-radius: 999px;
+    background: var(--logo-yellow);
+    color: #171b20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .send:hover { background: #d6ee55; transform: translateY(-1px); }
+
+  .send:active { transform: translateY(0) scale(.98); }
+
+  .send-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgb(23 27 32 / .22);
+    border-top-color: #171b20;
+    border-radius: 999px;
+    animation: spin .8s linear infinite;
+  }
+
+  .composer.is-loading .send-icon { display: none; }
+  .composer.is-loading .send-spinner { display: block; }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  .chips {
+    width: min(760px, 100%);
+    display: flex;
+    gap: 11px;
+    margin: 18px 0 0;
+    padding: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .chips button {
+    min-width: auto;
+    min-height: 37px;
+    border-radius: 999px;
+    padding: 0 17px;
+    color: var(--chip-color, rgb(255 252 237 / .78));
+    background: var(--chip-bg, rgb(255 253 241 / .065));
+    font-size: 12.8px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+    border: 1px solid var(--chip-border, rgb(255 253 241 / .2));
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .07);
+    transition: background .18s cubic-bezier(.3,.72,.12,1), border-color .18s cubic-bezier(.3,.72,.12,1), box-shadow .18s cubic-bezier(.3,.72,.12,1), color .18s cubic-bezier(.3,.72,.12,1), transform .18s cubic-bezier(.3,.72,.12,1);
+  }
+
+  .chips button:nth-child(1) {
+    --chip-bg: var(--logo-yellow);
+    --chip-hover: #d6ee55;
+    --chip-border: rgb(200 226 67 / .48);
+    --chip-color: #171b20;
+  }
+
+  .chips button:nth-child(2) {
+    --chip-bg: rgb(255 253 241 / .055);
+    --chip-hover: rgb(255 253 241 / .11);
+    --chip-border: rgb(255 253 241 / .18);
+  }
+
+  .chips button:nth-child(3) {
+    --chip-bg: rgb(255 253 241 / .055);
+    --chip-hover: rgb(255 253 241 / .11);
+    --chip-border: rgb(255 253 241 / .18);
+  }
+
+  .chips button.active {
+    color: var(--ink);
+    background: var(--chip-bg);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / .12);
+  }
+
+  .chips button:not(.active):hover {
+    color: var(--ink);
+    background: var(--chip-hover);
+    border-color: var(--chip-border);
+    transform: translateY(-1px);
+  }
+
+  .chips button:active { transform: translateY(0) scale(.98); }
+
+  .planner-feedback {
+    width: min(760px, 100%);
+    margin: 16px auto 0;
+    min-height: 34px;
+    color: rgb(255 253 241 / .66);
+    font-size: 12.5px;
+  }
+
+  .feedback-message {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .planner-feedback[data-state="idle"] .idle,
+  .planner-feedback[data-state="loading"] .loading,
+  .planner-feedback[data-state="result"] .result,
+  .planner-feedback[data-state="error"] .error {
+    display: flex;
+  }
+
+  .feedback-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(255 253 241 / .38);
+  }
+
+  .feedback-message.result .feedback-dot {
+    background: var(--logo-yellow);
+    box-shadow: 0 0 0 4px rgb(200 226 67 / .08);
+  }
+
+  .feedback-message.error .feedback-dot {
+    background: #f5b7a2;
+    box-shadow: 0 0 0 4px rgb(245 183 162 / .1);
+  }
+
+  .feedback-message.loading .feedback-dot {
+    animation: pulseDot 1s ease-in-out infinite;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { opacity: .35; transform: scale(.88); }
+    50% { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tape-art { animation: none; opacity: 1; clip-path: inset(0); }
+  }
+
+  @media (max-width: 900px) {
+    body { display: block; }
+    aside { display: none; }
+    main { min-height: 100dvh; }
+    .topbar { height: 64px; padding: 0 20px; }
+    .hero { padding: 8px 20px 42px; }
+    h1 { font-size: clamp(39px, 11vw, 54px); }
+    .sub { font-size: 15px; text-align: left; }
+    .planning-signals {
+      justify-content: flex-start;
+      font-size: 12px;
+    }
+    .composer-zone { margin-top: 34px; }
+    .composer-shell {
+      padding: 4px;
+      border-radius: 24px;
+    }
+    .composer {
+      min-height: 158px;
+      padding: 20px 20px 16px;
+      border-radius: 20px;
+    }
+    textarea { min-height: 102px; }
+    .draw-line { height: 50px; margin-bottom: 8px; }
+    .chips { justify-content: flex-start; }
+    .chips button { white-space: normal; }
+    .planner-feedback {
+      text-align: left;
+    }
+    .feedback-message {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+  <aside>
+    <div class="brand">
+      <div class="logo-frame">
+        <img class="lockup" src="assets/travai-logo-vector-reversed-transparent-compact.png" alt="Travai">
+      </div>
+      <div class="tag">认真规划 · 尽兴旅游</div>
+    </div>
+
+    <div class="actions">
+      <button class="active">
+        新对话 <span class="en">new</span>
+      </button>
+      <button>
+        收藏 <span class="en">Saved</span>
+      </button>
+    </div>
+
+    <nav>
+      <div class="nav-label">
+        <img class="nav-art-icon" src="assets/nav-history-coffee-transparent.png" alt="">
+        历史对话 <span class="en">History</span>
+      </div>
+      <div class="chat-list">
+        <a href="#" class="current">Chiang Mai May Day plan</a>
+        <a href="#">Cool seaside cities to escape heat</a>
+        <a href="#">Okinawa 3-day family trip</a>
+        <a href="#">I'd like to plan a trip wit...</a>
+      </div>
+      <div class="nav-item">
+        <img class="nav-art-icon" src="assets/nav-trip-map-transparent.png" alt="">
+        <span class="nav-copy">我的行程 <span class="en">My trips</span></span>
+      </div>
+      <div class="nav-item">
+        <img class="nav-art-icon" src="assets/nav-library-compass-transparent.png" alt="">
+        <span class="nav-copy">旅行收藏夹 <span class="en">Library</span></span>
+      </div>
+      <div class="sidebar-illustration" aria-hidden="true">
+        <img src="assets/airplane-window-white-soft.png" alt="">
+      </div>
+    </nav>
+
+    <div class="user">
+      <div class="avatar">1</div>
+      <div class="mail">
+        <div>18420720@qq.c...</div>
+        <div class="sub">18420720@qq.com</div>
+      </div>
+      <button class="logout" title="Sign out">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></svg>
+      </button>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <button>travai精选行程</button>
+      <button>关于我们</button>
+    </div>
+
+    <section class="hero" id="planner">
+      <div class="hero-inner">
+        <div class="draw-line" aria-hidden="true">
+          <img class="tape-art" src="assets/tape-line-white-soft.png" alt="">
+        </div>
+
+        <h1>Serious and intelligent<br>planning for every trip</h1>
+        <div class="planning-signals" aria-label="planning checks">
+          <span>网红避坑</span>
+          <span>少走冤枉路</span>
+          <span>最省成本</span>
+          <span>关门提示</span>
+          <span>提前订票</span>
+          <span>天气异常提醒</span>
+          <span class="pink">越用越懂你的 <span class="latin">AI</span></span>
+        </div>
+
+        <div class="composer-zone">
+          <div class="composer-shell">
+            <div class="composer">
+              <textarea placeholder="来吧，试试 AI 有多懂你。告诉我你想去的地方、风格、预算、人数、天数，或者小红书的截图或链接，给你最惊喜、靠谱的精准行程"></textarea>
+              <div class="bar">
+                <button class="send" type="button" title="Send" aria-label="生成行程">
+                  <span class="send-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4Z"/></svg>
+                  </span>
+                  <span class="send-spinner" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="chips">
+            <button>+ 我的旅行习惯</button>
+            <button>+ 截图</button>
+            <button>+ 小红书链接</button>
+          </div>
+
+          <div class="planner-feedback" data-state="idle" aria-live="polite">
+            <div class="feedback-message idle"><span class="feedback-dot"></span><span>支持截图、链接和偏好。提交后会先核对地点、时间、天气和预约风险。</span></div>
+            <div class="feedback-message loading"><span class="feedback-dot"></span><span>正在核对地点、路线、天气和时间。</span></div>
+            <div class="feedback-message result"><span class="feedback-dot"></span><span>已生成预览：3 天行程、2 个预约提醒、1 个天气备选。</span></div>
+            <div class="feedback-message error"><span class="feedback-dot"></span><span>先输入目的地、旅行风格，或者贴上小红书截图和链接。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    (() => {
+      const composer = document.querySelector(".composer");
+      const textarea = document.querySelector("textarea");
+      const send = document.querySelector(".send");
+      const feedback = document.querySelector(".planner-feedback");
+      const actionButtons = document.querySelectorAll(".actions button");
+      const navTargets = document.querySelectorAll(".nav-label, .nav-item");
+      const chips = document.querySelectorAll(".chips button");
+
+      if (!composer || !textarea || !send || !feedback) return;
+
+      send.addEventListener("click", () => {
+        const value = textarea.value.trim();
+        if (!value) {
+          feedback.dataset.state = "error";
+          textarea.focus();
+          return;
+        }
+
+        composer.classList.add("is-loading");
+        send.setAttribute("aria-busy", "true");
+        feedback.dataset.state = "loading";
+
+        window.setTimeout(() => {
+          composer.classList.remove("is-loading");
+          send.removeAttribute("aria-busy");
+          feedback.dataset.state = "result";
+        }, 900);
+      });
+
+      textarea.addEventListener("input", () => {
+        if (feedback.dataset.state === "error" && textarea.value.trim()) {
+          feedback.dataset.state = "idle";
+        }
+      });
+
+      actionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          actionButtons.forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+
+      navTargets.forEach((target) => {
+        target.addEventListener("click", () => {
+          navTargets.forEach((item) => item.classList.remove("is-selected"));
+          target.classList.add("is-selected");
+        });
+      });
+
+      chips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          chip.classList.toggle("active");
+          feedback.dataset.state = "idle";
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
