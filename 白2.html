@@ -494,8 +494,8 @@
 
   .composer-line .tape-art {
     max-width: 780px;
-    opacity: 1;
-    filter: brightness(0) saturate(100%) invert(78%) sepia(42%) saturate(520%) hue-rotate(24deg) brightness(104%) contrast(86%);
+    opacity: .18;
+    filter: brightness(0) saturate(100%) invert(78%) sepia(42%) saturate(420%) hue-rotate(24deg) brightness(108%) contrast(82%);
   }
 
   .tape-art {
@@ -551,6 +551,7 @@
     justify-content: center;
     gap: 0;
     flex-wrap: wrap;
+    align-items: baseline;
     color: var(--ink-2);
     font-size: var(--type-ui);
     font-weight: 600;
@@ -559,6 +560,7 @@
 
   .planning-signals span {
     padding: 0;
+    line-height: var(--leading-ui);
   }
 
   .planning-signals span + span::before {
@@ -569,6 +571,7 @@
 
   .planning-signals .pink {
     color: var(--logo-green);
+    display: inline-block;
   }
 
   .composer {

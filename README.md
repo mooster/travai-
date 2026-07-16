@@ -28,6 +28,7 @@ python3 -m http.server 8080
 
 - `白2.html`：统一调整后的白底版页面
 - `design-score-system/`：固定七维设计评分系统和白2评分记录
+- `design-score-system/排版系统.md`：白底版字体、字号、行高、字距和混排基准
 - `assets/`：页面图片、插画和本地字体资源
 - `logo/`：Travai logo 版本
 - `好看的图标-透明/`：透明黑线图标原稿
