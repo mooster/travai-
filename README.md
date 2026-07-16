@@ -56,6 +56,7 @@ python3 -m http.server 8080
 白2当前使用：
 
 - `logo/travai-logo-standard-980x770.png`：当前白底版使用的标准 Logo 矢量 PNG
+- `logo/travai-logo-standard-display.png`：白底侧栏使用的去除画布留白显示版
 - `logo/travai-logo-reversed-980x770.png`：蓝灰底版使用的反白 Logo 矢量 PNG
 - `assets/pencil-horizontal-display.png`：右下角横向铅笔
 - `assets/tape-line-delicate-soft-gray.png`：标题上方卷尺动画
